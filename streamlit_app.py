@@ -8,12 +8,16 @@ def generate_report(user_input):
         "inventory": "Inventory report: 50 units in stock",
         # Add more sample reports as needed
     }
+    ##Pass input into model
+    def llmOutput(input):
+        return "llmOutput"
 
+    return llmOutput(user_input)
     # Check if the user input matches a report
-    if user_input.lower() in sample_reports:
-        return sample_reports[user_input.lower()]
-    else:
-        return "Report not found"
+    #if user_input.lower() in sample_reports:
+    #    return sample_reports[user_input.lower()]
+    #else:
+    #    return "Report not found"
 
 # Main function to run the Streamlit app
 def main():
