@@ -1,23 +1,11 @@
 import streamlit as st
 
-# Define a function to generate a report based on user input (dummy implementation)
-def generate_report(user_input):
-    # Dummy reports for sample purposes
-    sample_reports = {
-        "sales": "Sales report for Q2 2023: $100,000",
-        "inventory": "Inventory report: 50 units in stock",
-        # Add more sample reports as needed
-    }
-    ##Pass input into model
-    def llmOutput(input):
-        return "llmOutput"
-
-    return llmOutput(user_input)
-    # Check if the user input matches a report
-    #if user_input.lower() in sample_reports:
-    #    return sample_reports[user_input.lower()]
-    #else:
-    #    return "Report not found"
+# Define a function to generate a response based on user input (dummy implementation)
+def generate_response(user_input):
+    # Dummy function for generating a response
+    # You can replace this with actual logic to process user input
+    # and generate meaningful responses
+    return f"Processing: {user_input}"
 
 # Main function to run the Streamlit app
 def main():
@@ -27,26 +15,34 @@ def main():
     st.markdown("Welcome to Insmart Chatbot! How can I help you today?")
     st.markdown("")  # Adding an empty line
 
+    # Initialize conversation history list
+    if 'conversation_history' not in st.session_state:
+        st.session_state.conversation_history = []
+
     # User input field
     user_input = st.text_input("You:", key="user_input")
 
-    # Button to generate report
+    # Button to send user input
     if st.button("Send"):
         if user_input.strip():  # Check if input is not empty
-            # Generate and display report
-            report = generate_report(user_input)
-            st.markdown("---")
-            st.markdown("")
-            st.markdown(f"<div style='text-align: right;'><strong>Me:</strong> {user_input}</div>", unsafe_allow_html=True)
-            st.markdown("")
-            st.markdown(f"<div style='text-align: left;'><strong>Insmart:</strong> {report}</div>", unsafe_allow_html=True)
-            st.markdown("")
-        else:
-            st.warning("Please enter a command.")
+            # Generate and store response
+            response = generate_response(user_input)
+            
+            # Append user input and response to conversation history
+            st.session_state.conversation_history.append((user_input, response))
 
-    # Clear button to reset details
-    if st.button("Clear"):
-        st.text_area("Conversation Window:", value="", key="clear")
+    # Display conversation history
+    st.markdown("---")
+    st.markdown("")  # Adding an empty line
+    for user_message, bot_message in st.session_state.conversation_history:
+        st.markdown(f"<div style='text-align: right;'><strong>Me:</strong> {user_message}</div>", unsafe_allow_html=True)
+        st.markdown("")
+        st.markdown(f"<div style='text-align: left;'><strong>Insmart:</strong> {bot_message}</div>", unsafe_allow_html=True)
+        st.markdown("")
+
+    # Clear button to reset conversation
+    if st.button("Clear History"):
+        st.session_state.conversation_history.clear()
 
 if __name__ == "__main__":
     main()
